@@ -1,0 +1,78 @@
+---
+alwaysApply: true
+---
+
+## 项目概览（Learn OpenGL / 多 Day 练习工程）
+
+这是一个用于学习 **Modern OpenGL（Core Profile）** 的 CMake 项目。代码按 `src/dayXX/` 分天组织，每一天是一个独立可执行程序（`day01`, `day02`, ...），便于逐步练习与回顾。
+
+## 目录结构
+
+- `CMakeLists.txt`: 根构建脚本（自动扫描 `src/day*` 生成可执行文件）
+- `include/`: 头文件（GLAD/GLFW 等）
+- `lib/`: GLFW 库（macOS: `libglfw.3.dylib`）
+- `src/`:
+  - `glad.c`: **全项目共用**的 GLAD 实现（避免每个 day 重复一份）
+  - `day01/`: 第一天：窗口/上下文 + 第一个三角形（VAO/VBO + shader）
+  - `day02/`: 第二天：Hello Triangle 深入（多 VAO/VBO、两套 shader、EBO 索引绘制）
+  - `day03/`: 第三天：GLSL/Shader 体系（Shader 类、uniform/颜色混合等）
+  - `day04/`: 第四天：为贴图准备的矩形/EBO（并在 `README.md` 整理 Texture 知识体系）
+- `build/`: CMake 构建目录（产物可执行文件、编译中间文件等）
+  - `shaders/<dayXX>/`: 运行时使用的 shader 拷贝目录（由构建系统自动同步）
+
+## 构建与运行
+
+在项目根目录：
+
+```bash
+cd build
+cmake ..
+make -j
+```
+
+运行某一天：
+
+```bash
+cd build
+./day03
+./day04
+```
+
+## 工程化约定（非常重要）
+
+### 1) shader 路径约定（运行时从 build 启动）
+
+可执行文件从 `build/` 目录运行时，会以 `build/` 作为当前工作目录。因此我们约定：
+
+- 源码 shader 放在：`src/dayXX/shaders/*.glsl`
+- 运行时读取 shader 路径写成：`shaders/dayXX/vertex.glsl` / `shaders/dayXX/fragment.glsl`
+- 构建产物 shader 会同步到：`build/shaders/dayXX/*.glsl`
+
+例如 day04 里使用：
+
+```cpp
+Shader ourShader("shaders/day04/vertex.glsl", "shaders/day04/fragment.glsl");
+```
+
+### 2) shader 自动同步（hash 驱动）
+
+根 `CMakeLists.txt` 为每个 day 的 `shaders/` 建立了一个 `dayXX_shaders` 目标，并使用内容 hash 判断是否需要拷贝：
+
+- 你修改 `src/dayXX/shaders/**` 后，执行 `make` 或 `make dayXX` 会自动同步到 `build/shaders/dayXX/`
+- 如果内容没变化，会输出 `unchanged`，避免重复拷贝
+
+> 注意：请优先编辑 `src/dayXX/shaders/` 下的 shader，不要直接改 `build/` 下的拷贝产物，否则下次同步会覆盖。
+
+## Day 学习路线
+
+- **day01**：创建窗口、初始化 GLAD、最小渲染循环（现代 OpenGL 基础）
+- **day02**：Hello Triangle 练习（多 VAO/VBO、不同片段着色器、EBO 索引绘制）
+- **day03**：GLSL/Shader 知识体系 + `Shader` 类封装 + uniform/颜色混合玩法
+- **day04**：为纹理（Textures）铺垫的矩形绘制与知识体系文档（见 `src/day04/README.md`，参考 LearnOpenGL CN 纹理章节）
+
+## 常见问题（排错方向）
+
+- **窗口黑屏/无输出**：检查是否 `glfwMakeContextCurrent` 后再 `gladLoadGLLoader`
+- **shader 编译失败**：优先看是否读取到了正确路径（运行时从 `build/` 启动）
+- **改 shader 效果不变**：确认你改的是 `src/dayXX/shaders/`，然后 `make dayXX`（会触发 hash 同步）
+

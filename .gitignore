@@ -1,0 +1,91 @@
+# ===== 构建产物 =====
+build/
+out/
+bin/
+Debug/
+Release/
+RelWithDebInfo/
+MinSizeRel/
+
+# ===== CMake 生成文件（防止在源码树内构建时被提交）=====
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+CPackConfig.cmake
+CPackSourceConfig.cmake
+CTestTestfile.cmake
+DartConfiguration.tcl
+Makefile
+compile_commands.json
+install_manifest.txt
+Testing/
+_deps/
+!cmake/
+!CMakeLists.txt
+
+# ===== 编辑器 / IDE =====
+.vscode/
+.cursor/
+.idea/
+.cache/
+*.swp
+*.swo
+*~
+.clangd/
+.ccls-cache/
+
+# ===== 系统文件 =====
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ===== 编译中间产物（不影响 lib/ 中提交的 GLFW 库）=====
+*.o
+*.obj
+*.lo
+*.slo
+*.ko
+*.gch
+*.pch
+
+# ===== 可执行文件 =====
+*.exe
+*.out
+*.app
+
+# ===== 调试 / 性能分析 =====
+*.dSYM/
+*.su
+*.idb
+*.pdb
+*.ilk
+*.map
+
+# ===== 日志 / 临时文件 =====
+*.log
+*.tmp
+*.bak
+*.orig
+
+# ===== 项目特定 =====
+*.csv
+usage-events-*.csv
+
+# ===== 第三方库（不进仓） =====
+include/glm/
+include/GLFW/
+include/glad/
+include/KHR/
+include/stb_image.h
+lib/
+
+# ===== 教材 PDF（版权 + 体积） =====
+Doc/
+
+# ===== 本清理脚本自身 =====
+cleanup-repo.sh
+.gitignore.bak
