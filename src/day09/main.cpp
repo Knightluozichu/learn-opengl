@@ -1,3 +1,4 @@
+#include <cstddef>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -81,50 +82,49 @@ int main(){
     Shader lightingShader("shaders/day09/lighting.vs","shaders/day09/lighting.fs");
     Shader lightCubeShader("shaders/day09/light_cube.vs","shaders/day09/light_cube.fs");
 
-    float vertices[] ={
-        // Back face (z = -0.5)
-        -0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f, -0.5f,
-         0.5f,  0.5f, -0.5f,
-         0.5f,  0.5f, -0.5f,
-        -0.5f,  0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
-        // Front face (z = +0.5)
-        -0.5f, -0.5f,  0.5f,
-         0.5f, -0.5f,  0.5f,
-         0.5f,  0.5f,  0.5f,
-         0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f,  0.5f,
-        -0.5f, -0.5f,  0.5f,
-        // Left face (x = -0.5)
-        -0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
-        -0.5f, -0.5f, -0.5f,
-        -0.5f, -0.5f,  0.5f,
-        -0.5f,  0.5f,  0.5f,
-        // Right face (x = +0.5)
-         0.5f,  0.5f,  0.5f,
-         0.5f,  0.5f, -0.5f,
-         0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f,  0.5f,
-         0.5f,  0.5f,  0.5f,
-        // Bottom face (y = -0.5)
-        -0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f,  0.5f,
-         0.5f, -0.5f,  0.5f,
-        -0.5f, -0.5f,  0.5f,
-        -0.5f, -0.5f, -0.5f,
-        // Top face (y = +0.5)
-        -0.5f,  0.5f, -0.5f,
-         0.5f,  0.5f, -0.5f,
-         0.5f,  0.5f,  0.5f,
-         0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f, -0.5f,
-    };
+float vertices[] = {
+    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+    -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+
+    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+
+    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+
+     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+
+    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+
+    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+     0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
+};
 
     glm::vec3 lightPos(1.2f,1.0f,2.0f);
 
@@ -138,13 +138,17 @@ int main(){
 
     glBindVertexArray(cubeVAO);
     glBindBuffer(GL_ARRAY_BUFFER,VBO);
-    glVertexAttribPointer(0,3,GL_FLOAT, GL_FALSE,3*sizeof(float),(void*)0);
+    glVertexAttribPointer(0,3,GL_FLOAT, GL_FALSE,6*sizeof(float),(void*)0);
     glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,6*sizeof(float),(void*)(3*sizeof(float)));
+    glEnableVertexAttribArray(1);
 
     glBindVertexArray(lightVAO);
     glBindBuffer(GL_ARRAY_BUFFER,VBO);
-    glVertexAttribPointer(0,3,GL_FLOAT, GL_FALSE,3*sizeof(float),(void*)0);
+    glVertexAttribPointer(0,3,GL_FLOAT, GL_FALSE,6*sizeof(float),(void*)0);
     glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,6*sizeof(float),(void*)(3*sizeof(float)));
+    glEnableVertexAttribArray(1);
 
     Camera camera(glm::vec3(0.0f,0.0f,3.0f));
     glfwSetWindowUserPointer(window, &camera);
@@ -153,7 +157,7 @@ int main(){
 
     glm::vec3 objectcolor(1.0f,0.5f,0.31f);
     glm::vec3 lightColor(1.0f,1.0f,1.0f);
-    float amibientStrength = 1.0f;
+    float amibientStrength = 0.2f;
 
     while(!glfwWindowShouldClose(window))
     {
@@ -171,6 +175,9 @@ int main(){
             (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f,100.0f);
         
         lightingShader.use();
+        lightingShader.setVec3("lightPos", lightPos.x, lightPos.y, lightPos.z);
+        // lightingShader.setVec3("viewPos", , float y, float z)
+        lightingShader.setFloat("amibientStrength", amibientStrength);
         lightingShader.setVec3("objectColor",objectcolor.x,objectcolor.y,objectcolor.z);
         lightingShader.setVec3("lightColor", lightColor.x, lightColor.y, lightColor.z);
         lightingShader.setMat4("view", glm::value_ptr(view));
@@ -178,7 +185,7 @@ int main(){
         glm::mat4 model(1.0f);
         lightingShader.setMat4("model", glm::value_ptr(model));
         glBindVertexArray(cubeVAO);
-        glDrawArrays(GL_TRIANGLES,0,36);
+        glDrawArrays(GL_TRIANGLES,0,72);
 
         lightCubeShader.use();
         lightCubeShader.setMat4("view", glm::value_ptr(view));
@@ -190,7 +197,7 @@ int main(){
         // lightColor = glm::vec3(x,y,z);
         // lightCubeShader.setVec3("sinTime", lightColor.x, lightColor.y, lightColor.z);
         lightCubeShader.setVec3("lightColor", lightColor.x, lightColor.y, lightColor.z);
-        lightCubeShader.setFloat("amibientStrength", amibientStrength);
+        // lightCubeShader.setFloat("amibientStrength", amibientStrength);
         model = glm::mat4(1.0f);
         model = glm::rotate(model,(float)glfwGetTime(), glm::vec3(0.0f,1.0f,0.0f));
         model = glm::translate(model, lightPos);
@@ -198,7 +205,7 @@ int main(){
 
         lightCubeShader.setMat4("model", glm::value_ptr(model));
         glBindVertexArray(lightVAO);
-        glDrawArrays(GL_TRIANGLES,0,36);
+        glDrawArrays(GL_TRIANGLES,0,72);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
