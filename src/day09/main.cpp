@@ -158,6 +158,7 @@ float vertices[] = {
     glm::vec3 objectcolor(1.0f,0.5f,0.31f);
     glm::vec3 lightColor(1.0f,1.0f,1.0f);
     float amibientStrength = 0.2f;
+    float specularStrength = 0.5f;
 
     while(!glfwWindowShouldClose(window))
     {
@@ -175,8 +176,9 @@ float vertices[] = {
             (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f,100.0f);
         
         lightingShader.use();
+        lightingShader.setFloat("specularStrength", specularStrength);
+        lightingShader.setVec3("viewPos", camera.position.x, camera.position.y, camera.position.z);
         lightingShader.setVec3("lightPos", lightPos.x, lightPos.y, lightPos.z);
-        // lightingShader.setVec3("viewPos", , float y, float z)
         lightingShader.setFloat("amibientStrength", amibientStrength);
         lightingShader.setVec3("objectColor",objectcolor.x,objectcolor.y,objectcolor.z);
         lightingShader.setVec3("lightColor", lightColor.x, lightColor.y, lightColor.z);
