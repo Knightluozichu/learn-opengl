@@ -57,7 +57,7 @@ int main(){
 #endif
 
     GLFWwindow *window = glfwCreateWindow(
-        SCR_WIDTH,SCR_HEIGHT,"Day 09: Phone Light Model",nullptr,nullptr);
+        SCR_WIDTH,SCR_HEIGHT,"Day 09: Phong Light Model",nullptr,nullptr);
     
     if(NULL == window)
     {
