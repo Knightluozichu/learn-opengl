@@ -127,6 +127,7 @@ float vertices[] = {
 };
 
     glm::vec3 lightPos(1.2f,1.0f,2.0f);
+    glm::vec3 actualLightPos = lightPos;
 
     unsigned int VBO, cubeVAO, lightVAO;
     glGenBuffers(1, &VBO);
@@ -178,7 +179,7 @@ float vertices[] = {
         lightingShader.use();
         lightingShader.setFloat("specularStrength", specularStrength);
         lightingShader.setVec3("viewPos", camera.position.x, camera.position.y, camera.position.z);
-        lightingShader.setVec3("lightPos", lightPos.x, lightPos.y, lightPos.z);
+        lightingShader.setVec3("lightPos", actualLightPos.x, actualLightPos.y, actualLightPos.z);
         lightingShader.setFloat("amibientStrength", amibientStrength);
         lightingShader.setVec3("objectColor",objectcolor.x,objectcolor.y,objectcolor.z);
         lightingShader.setVec3("lightColor", lightColor.x, lightColor.y, lightColor.z);
@@ -187,7 +188,7 @@ float vertices[] = {
         glm::mat4 model(1.0f);
         lightingShader.setMat4("model", glm::value_ptr(model));
         glBindVertexArray(cubeVAO);
-        glDrawArrays(GL_TRIANGLES,0,72);
+        glDrawArrays(GL_TRIANGLES,0,36);
 
         lightCubeShader.use();
         lightCubeShader.setMat4("view", glm::value_ptr(view));
@@ -202,12 +203,14 @@ float vertices[] = {
         // lightCubeShader.setFloat("amibientStrength", amibientStrength);
         model = glm::mat4(1.0f);
         model = glm::rotate(model,(float)glfwGetTime(), glm::vec3(0.0f,1.0f,0.0f));
+        glm::vec4 p = model * glm::vec4(lightPos, 1.0f);
+        actualLightPos = glm::vec3(p.x, p.y, p.z);
         model = glm::translate(model, lightPos);
         model = glm::scale(model, glm::vec3(0.2f));
 
         lightCubeShader.setMat4("model", glm::value_ptr(model));
         glBindVertexArray(lightVAO);
-        glDrawArrays(GL_TRIANGLES,0,72);
+        glDrawArrays(GL_TRIANGLES,0,36);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
